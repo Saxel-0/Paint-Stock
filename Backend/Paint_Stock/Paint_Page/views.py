@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from .models import PaintUser, Paints
-from .serializers import PaintUserSerializer
+from .serializers import PaintUserSerializer, PaintsSerializer
 
 class PaintUserViewSet(viewsets.ModelViewSet):
     queryset = PaintUser.objects.all()
