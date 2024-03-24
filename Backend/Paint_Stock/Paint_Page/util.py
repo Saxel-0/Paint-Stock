@@ -12,6 +12,9 @@ def update_permissions(username, is_editor=False, is_admin=False):
         # Clear their existing group memberships
         user.groups.clear()
 
+        editors_group, _ = Group.objects.get_or_create(name='Editors')
+        admins_group, _ = Group.objects.get_or_create(name='Admins')
+        
         # Assigns user to new group
         if is_editor:
             user.is_editor = True

@@ -3,9 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Group
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
 
 #Model for the paint cards, PositiveIntegerField as negative quantities are not possible
 class Paints(models.Model):
@@ -16,7 +14,7 @@ class Paints(models.Model):
         return self.colour
     
 #User manager, allows for creation and deletion of users in the admin menu
-class SiteUserManager(BaseUserManager):
+class PaintUserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
         if not username:
                 raise ValueError(_('A Username is required'))
@@ -29,7 +27,7 @@ class SiteUserManager(BaseUserManager):
          user.delete()
 
 #Model for users, variables for admin/editor permissions
-class SiteUser(AbstractUser):
+class PaintUser(AbstractUser):
     username = models.CharField(unique=True,max_length=30)
     is_admin = models.BooleanField(default=False)
     is_editor = models.BooleanField(default=True)
@@ -37,12 +35,12 @@ class SiteUser(AbstractUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
-    objects = SiteUserManager()
+    objects = PaintUserManager()
 
     def __str__(self):
         return self.username
     
-@receiver(post_save, sender=User) #ensures only signals from User are used for the instance
+@receiver(post_save, sender=PaintUser) #ensures only signals from User are used for the instance
 def assign_permissions(sender, instance, created, **kwargs):
     if created:
         #creates groups for different permission levels
