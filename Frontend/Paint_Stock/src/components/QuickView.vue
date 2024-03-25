@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="quick-view-text">
       <button @click="toggleList">Quick View</button>
       <div v-show="showList">
         <ul>
@@ -34,5 +34,8 @@
   </script>
   
   <style scoped>
- 
+    .quick-view-text {
+        font-weight: bold; 
+        font-size: 20px; 
+    }
   </style>

@@ -1,13 +1,16 @@
 <!-- template for the cards, includes the colour name and stock level, as well as an input field to update the stock level -->
 <template>
-    <div class="paint-card">
-      <h2>{{ paint.colour }}</h2>
-      <p>Stock: {{ paint.stock_level }}</p>
-      <input type="number" v-model="newStockLevel" :disabled="!canEdit">
-      <p>L</p>
-      <button @click="updateStock" :disabled="!canEdit">Update Stock</button>
+    <div class="paint-card" :style="{ backgroundColor: paint.colour }" :class="{ 'text-black': paint.colour === 'White' }">
+        <div class="paint-card-header">
+            <h2>{{ paint.colour }}</h2>
+            <p>Stock: {{ paint.stock_level }}L</p>
+        </div>
+        <div class="paint-card-footer">
+            <input type="number" v-model="newStockLevel" :disabled="!canEdit">
+            <button @click="updateStock" :disabled="!canEdit">Update Stock</button>
+        </div>
     </div>
-  </template>
+</template>
   
 <script>
 import { ref, reactive, toRefs } from 'vue';
@@ -53,7 +56,25 @@ export default {
 
 <style scoped>  /* CSS styling for the cards */
 .paint-card {
-    display: block;
-    visibility: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin-right: 150px;
+  color: white; 
+}
+
+.paint-card-header {
+  align-self: flex-start;
+}
+
+.paint-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-black {
+  color: black;
 }
 </style>

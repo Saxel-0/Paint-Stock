@@ -6,7 +6,7 @@
         @dragover.prevent
         @drop="canEdit ? drop($event, status) : null"
       >
-        <h2>{{ status }}</h2>
+        <h2 class="swim-lane-title">{{ status }}</h2>
         <PaintCard
           v-for="paint in paintsByStatus[status]"
           :key="paint.id"
@@ -76,6 +76,25 @@
   };
   </script>
   
-  <style scoped>
-  
-  </style>
+<style scoped>
+    .swim-lanes > * {
+        height: 33.33vh; 
+        margin-bottom: 1vh; 
+    }
+    
+    .swim-lanes {
+        display: flex;
+        flex-direction: row;
+        justify-content: left; 
+    }
+
+    @media (max-width: 768px) {
+        .swim-lanes {
+            flex-direction: column-reverse;
+        }
+    }
+    .swim-lane-title {
+        margin-right: 150px;
+        margin-left: 0px;
+    }
+</style>
