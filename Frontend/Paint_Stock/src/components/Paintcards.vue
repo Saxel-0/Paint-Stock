@@ -3,14 +3,14 @@
     <div class="paint-card">
       <h2>{{ paint.colour }}</h2>
       <p>Stock: {{ paint.stock_level }}</p>
-      <input type="number" v-model="newStockLevel" v-if="canEdit">
+      <input type="number" v-model="newStockLevel" :disabled="!canEdit">
       <p>L</p>
-      <button @click="updateStock" v-if="canEdit">Update Stock</button>
+      <button @click="updateStock" :disabled="!canEdit">Update Stock</button>
     </div>
   </template>
   
-  <script>
-import { ref } from 'vue';
+<script>
+import { ref, reactive, toRefs } from 'vue';
 import axios from 'axios';
   
 export default {
@@ -25,22 +25,25 @@ export default {
         }
     },
     setup(props) {
-        console.log(props.paint);
-        console.log('PaintCard component created', props);
+        const localPaint = reactive({ ...props.paint });
         const newStockLevel = ref(0);
-
         const updateStock = async () => {
-        try {
-            const response = await axios.put(`http://tempUrl/paints/${props.paint.id}/`, {
-            stock: props.paint.stock_level
-            });
-            props.paint.stock_level = newStockLevel.value;
-        } catch (error) {
-            console.error(error);
-        }
+            if (props.paint) {
+                try {
+                    const response = await axios.put(`http://tempUrl/paints/${props.paint.id}/`, {
+                        stock: newStockLevel.value
+                    });
+                    if (response.status === 200) {
+                        localPaint.stock_level = newStockLevel.value;
+                    }
+                }   catch (error) {
+                    console.error(error);
+                }
+            }
         };
 
         return {
+        ...toRefs(localPaint),
         newStockLevel,
         updateStock
         };

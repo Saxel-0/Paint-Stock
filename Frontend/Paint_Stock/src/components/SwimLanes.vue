@@ -12,6 +12,7 @@
           :key="paint.id"
           :paint="paint"
           :draggable="canEdit"
+          :canEdit="canEdit"
           @dragstart="canEdit ? dragStart($event, paint) : null"
           @dragend="canEdit ? dragEnd : null"
         />
