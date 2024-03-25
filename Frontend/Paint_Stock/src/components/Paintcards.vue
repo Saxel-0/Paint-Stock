@@ -1,9 +1,9 @@
 <!-- template for the cards, includes the colour name and stock level, as well as an input field to update the stock level -->
 <template>
-    <div class="paint-card" :style="{ backgroundColor: paint.colour }" :class="{ 'text-black': paint.colour === 'White' }">
+    <div class="paint-card" :style="{ backgroundColor: colour }" :class="{ 'text-black': colour === 'White' }">
         <div class="paint-card-header">
-            <h2>{{ paint.colour }}</h2>
-            <p>Stock: {{ paint.stock_level }}L</p>
+            <h2>{{ colour }}</h2>
+            <p>Stock: {{ stock_level }}L</p>
         </div>
         <div class="paint-card-footer">
             <input type="number" v-model="newStockLevel" :disabled="!canEdit">
@@ -31,9 +31,9 @@ export default {
         const localPaint = reactive({ ...props.paint });
         const newStockLevel = ref(0);
         const updateStock = async () => {
-            if (props.paint) {
+            if (localPaint) {
                 try {
-                    const response = await axios.put(`http://tempUrl/paints/${props.paint.id}/`, {
+                    const response = await axios.put(`http://Paint-Stock.us-east-2.elasticbeanstalk.com/paints/${props.paint.id}/`, {
                         stock: newStockLevel.value
                     });
                     if (response.status === 200) {
