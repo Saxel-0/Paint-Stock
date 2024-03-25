@@ -1,25 +1,28 @@
 <!-- template for the cards, includes the colour name and stock level, as well as an input field to update the stock level -->
 <template>
     <div class="paint-card">
-        <h2>{{ paint.colour }}</h2>
-        <p>Stock: {{ paint.stock_level }}</p>
-        <input type="number" v-model="newStockLevel">
-        <p>L</p>
-        <button @click="updateStock">Update Stock</button>
+      <h2>{{ paint.colour }}</h2>
+      <p>Stock: {{ paint.stock_level }}</p>
+      <input type="number" v-model="newStockLevel" v-if="canEdit">
+      <p>L</p>
+      <button @click="updateStock" v-if="canEdit">Update Stock</button>
     </div>
-    
-</template>
-
-<script>
+  </template>
+  
+  <script>
 import { ref } from 'vue';
 import axios from 'axios';
-
+  
 export default {
-    props: { 
+    props: {
         paint: {
             required: true,
             type: Object
         },
+        canEdit: {
+            type: Boolean,
+            default: false
+        }
     },
     setup(props) {
         console.log(props.paint);
